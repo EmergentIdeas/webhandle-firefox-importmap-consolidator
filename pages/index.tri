@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+			window.updateImportMap = function() {
+				let nodeMaps = [...document.querySelectorAll('script[type="importmapff"]')]
+
+				if(nodeMaps.length > 1) {
+					let objs = []
+					for(let mapText of nodeMaps) {
+						let map = JSON.parse(mapText.innerHTML)
+						objs.push(map.imports)
+					}
+					
+					let combined = Object.assign({}, ...objs)
+					
+					let replace = true
+					if(replace) {
+						let nodeMap = document.createElement('script')
+						nodeMap.setAttribute('type', 'importmap')
+						nodeMap.innerHTML = JSON.stringify({imports: combined}, null, '\t')
+						for(let mapText of nodeMaps) {
+							mapText.remove()
+						}
+						document.head.prepend(nodeMap)
+					}
+					else {
+						let revised  = JSON.stringify({imports: combined}, null, '\t')
+						nodeMaps[0].innerHTML = revised
+						let addMaps = nodeMaps.slice(1)
+						for(let mapText of addMaps) {
+							mapText.remove()
+						}
+
+					}
+				}
+			}
+			
+		</script>
+		__externalResourceManager.provideResource({ url: '/js/one.mjs' , mimeType: 'application/javascript' , resourceType: 'module' , name: 'one' })__
+		__externalResourceManager.render()__	
+		<script>
+			// window.updateImportMap()
+		</script>
+		<script type="module" defer>
+			import {one} from "one"
+			one()
+		</script>
+	</head>
+	
+	<body>
+		
+		
+		__externalResourceManager.provideResource({ url: '/js/two.mjs' , mimeType: 'application/javascript' , resourceType: 'module' , name: 'two' })__
+		__externalResourceManager.render()__	
+		<script type="module" defer>
+			import {two} from "two"
+			two()
+		</script>
+		<script>
+			// window.updateImportMap()
+		</script>
+		
+	</body>
+</html>
