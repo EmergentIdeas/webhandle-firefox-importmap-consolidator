@@ -22,6 +22,6 @@ npm install @webhandle/firefox-importmap-consolidator
 ## Initialization 
 
 ```js
-import setupFirefoxImportmapConsolidator from "@webhandle/initialize-webhandle-component.mjs"
+import setupFirefoxImportmapConsolidator from "@webhandle/firefox-importmap-consolidator/initialize-webhandle-component.mjs"
 let managerFirefoxImportmapConsolidator = await setupFirefoxImportmapConsolidator(webhandle)
 ```
